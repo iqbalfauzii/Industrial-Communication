@@ -1,0 +1,48 @@
+#include <BLEDevice.h>
+#include <BLEUtils.h>
+#include <BLEServer.h>
+
+#define SERVICE_UUID        "17f5c403-6443-47f7-8d69-0f132ce16bd5"
+BLECharacteristic WhiteLedCharacteristic("e495dbf6-fdf1-4a96-a7bf-bb6f11e4f897", BLECharacteristic::PROPERTY_WRITE);
+
+string value;
+class MyServerCallbacks: public BLEServerCallbacks 
+{
+    void onWrite(BLECharacteristic *pCharacteristic) 
+    {
+      std::string value = pCharacteristic->getValue();
+    }
+};
+
+
+void setup()
+{
+  BLEDevice::init("bleServerIqbal");
+
+  BLEServer *pServer = BLEDevice::createServer();
+  pServer->setCallbacks(new MyServerCallbacks());
+
+    BLEService *pService = pServer->createService(SERVICE_UUID);
+
+  pService->addCharacteristic(&WhiteLedCharacteristic);
+
+  pService->start();
+
+  BLEAdvertising *pAdvertising = pServer->getAdvertising();
+  pAdvertising->start();
+
+  
+}
+
+void loop()
+
+{
+
+
+   if(value == "ONW")
+      {
+        Serial.println("Turning ON the led");
+        digitalWrite(ledWhite,HIGH);
+      }
+  
+}
