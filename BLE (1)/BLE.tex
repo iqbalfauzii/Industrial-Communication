@@ -1,0 +1,44 @@
+\section{Bluetooth Low Energy}
+
+Bluetooth Low Energy will be explained in greater detail in this section. However, it should be noted that this is only a basic idea of what the BLE protocol is so that the reader can better understand the BLE protocol. Following the architecture of the protocol, the introduction of the BLE will be presented first. Finally, the method by which this protocol fucntion in our project also being dicussed.
+
+Bluetooth low energy is an advancement of traditional Bluetooth and an advanced wireless technology that can be created with the least amount of power.Following that, it should be noted that, despite the use of the Bluetooth brand, BLE should be treated as a separate technology with different design goals and market segments.
+
+
+
+\subsection{Architechture}
+
+The figure above best describes the architecture of the BLE protocol. Based on the figure, the BLE protocol uses a stack architecture that is similar to classical Bluetooth. 
+
+The application layer is use-case dependent and refers to the implementation on top of the Generic Access Profile and Generic Attribute Profile — it’s how your application handles data received from and sent to other devices and the logic behind it.
+
+The host contains the following layers: Generic Access Profile (GAP), Generic Attribute Profile (GATT), Attribute Protocol (ATT), Security Manager (SM) Logical Link Control and Adaptation Protocol (L2CAP) Host Controller Interface (HCI) — Host side
+
+The controller contains the following layers: Physical Layer (PHY) and the Link Layer.
+
+The physical layer (PHY) refers to the radio hardware used for communication and for modulating/de-modulating the data. BLE operates in the ISM band (2.4 GHz spectrum), which is segmented into 40 RF channels, each separated by 2 MHz (center-to-center), as shown in the figure
+
+The critical part to start implementing BLE in personal projects are Generic Access Profile (GAP) and Generic Attribute Profile (GATT). Understanding both of these parts will give access to the user to design specific functions for the microcontroller on a capable device. This will be discussed in more detail in the upcoming section.
+
+\subsection{How it works}
+
+BLE makes use of the GATT concept for data transfer.
+The Generic Attribute Profile (GATT) defines the format of the data exposed by a BLE device. It also defines the procedures needed to access the data exposed by a device.
+
+There are two Roles within GATT: Server and Client. The Server is the device that exposes the data it controls or contains, and possibly some other aspects of its behaviour that other devices may be able to control. A Client, on the other hand, is the device that interfaces with the Server with the purpose of reading the Server’s exposed data and/or controlling the Server’s behaviour.
+
+Keep in mind that a BLE device can act as the Server and a Client at the same time. Simply put, it acts as the Server for the sake of exposing its own data, and as a client when accessing another device’s data.
+
+GATT defines a hierarchical data structure that is exposed to connected BLE devices. This means that GATT defines the way that two BLE devices send and receive standard messages.
+
+The top level of the hierarchy is a profile, which is composed of one or more services. Usually, a BLE device contains more than one service. Profiles are much broader in definition from Services. They are concerned with defining the behaviour of both the Client and Server when it comes to Services, Characteristics and even Connections and security requirements. Services and their specifications, on the other hand, deal with the implementation of these Services and Characteristics on the Server side only
+
+Services are a grouping of one or more Attributes (some of which are Characteristics). It’s meant to group together related Attributes that satisfy a specific functionality on the Server. For example, the SIG-adopted Battery Service contains one Characteristic called the Battery Level.
+
+The characteristic is always owned by a service, and it is where the actual data is contained in the hierarchy (value). The characteristic always has two attributes: characteristic declaration (that provides metadata about the data) and the characteristic value. It represents a piece of information/data that a Server wants to expose to a client. For example, the Battery Level Characteristic represents the remaining power level of a battery in a device which can be read by a client.
+
+Additionally, the characteristic value can be followed by descriptors, which further expand on the metadata contained in the characteristic declaration.
+
+The properties describe how the characteristic value can be interacted with. Basically, it contains the operations and procedures that can be used with the characteristic. Some of the examples are Broadcast, Read, Write without response, Write, Notify, Indicate, Authenticated Signed Writes and Extended Properties
+
+Each service, characteristic and descriptor have an UUID (Universally Unique Identifier). An UUID is a unique 128-bit (16 bytes) number.
